@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Suspense } from "react";
+import ProjectDetailPage from "page/ProjectDetailPage";
+import NotFoundPage from "page/NotFoundPage";
+
+const RegisterPage = lazy(() => import("page/RegisterPage"));
+const LoginPage = lazy(() => import("page/LoginPage"));
+const ProjectManagement = lazy(() => import("page/ProjectManagement"));
+const CreateProjectPage = lazy(() => import("page/CreateProjectPage"));
+const CreateTaskPage = lazy(() => import("page/CreateTaskPage"));
+const UpdateTaskPage = lazy(() => import("page/UpdateTaskPage"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense>
+      <Routes>
+        <Route
+          path="/"
+          element={<ProjectManagement></ProjectManagement>}
+        ></Route>
+        <Route
+          path="/createproject"
+          element={<CreateProjectPage></CreateProjectPage>}
+        ></Route>
+        <Route
+          path="/edit/:id"
+          element={<ProjectDetailPage></ProjectDetailPage>}
+        ></Route>
+        <Route
+          path="/createtask"
+          element={<CreateTaskPage></CreateTaskPage>}
+        ></Route>
+        <Route
+          path="/edit/task/:id"
+          element={<UpdateTaskPage></UpdateTaskPage>}
+        ></Route>
+        <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
+        <Route path="/login" element={<LoginPage></LoginPage>}></Route>
+        <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
+      </Routes>
+    </Suspense>
   );
 }
 
